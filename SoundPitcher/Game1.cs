@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Media;
+using System.IO;
 using System.IO.Ports;
 
 namespace SoundPitcher
@@ -17,6 +17,7 @@ namespace SoundPitcher
         SerialPort serialPort;
         SoundEffect soundEffect, soundEffect2;
         SoundEffectInstance sundEffectInstance, sundEffectInstance2;
+        StreamWriter sw;
 
         public Game1()
         {
@@ -25,11 +26,15 @@ namespace SoundPitcher
             this.Exiting += Game1_Exiting;
             soundEffect = Content.Load<SoundEffect>("blurp");
             sundEffectInstance = soundEffect.CreateInstance();
+            sw = new StreamWriter("port.txt");
         }
 
         private void Game1_Exiting(object sender, System.EventArgs e)
         {
-            serialPort.Close();
+            sw.Close();
+            sw.Dispose();
+            if(serialPort.IsOpen)
+                serialPort.Close();
         }
 
         /// <summary>
@@ -42,7 +47,7 @@ namespace SoundPitcher
         {
             // TODO: Add your initialization logic here
             serialPort = new SerialPort("COM6");
-            serialPort.Open();
+            //serialPort.Open();
 
             base.Initialize();
         }
@@ -79,6 +84,7 @@ namespace SoundPitcher
                 Exit();
 
             // TODO: Add your update logic here
+            //sw.WriteLine(serialPort.ReadLine());
 
             base.Update(gameTime);
         }
