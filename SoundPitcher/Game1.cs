@@ -2,8 +2,10 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Audio;
+using System.Timers;
 using System.IO;
 using System.IO.Ports;
+using System.Threading;
 
 namespace SoundPitcher
 {
@@ -18,6 +20,8 @@ namespace SoundPitcher
         SoundEffect soundEffect, soundEffect2;
         SoundEffectInstance sundEffectInstance, sundEffectInstance2;
         StreamWriter sw;
+        Thread thread;
+        System.Timers.Timer t;
 
         public Game1()
         {
@@ -27,6 +31,29 @@ namespace SoundPitcher
             soundEffect = Content.Load<SoundEffect>("blurp");
             sundEffectInstance = soundEffect.CreateInstance();
             sw = new StreamWriter("port.txt");
+            //thread = new Thread(new ThreadStart(Kiir));
+            t = new System.Timers.Timer(100);
+            t.Elapsed += new System.Timers.ElapsedEventHandler(Kiir);
+            t.Elapsed += new System.Timers.ElapsedEventHandler(Play);
+        }
+
+        public void Kiir(object source, ElapsedEventArgs e)
+        {
+            string s = serialPort.ReadLine();
+            sw.Write(s+"\r");
+        }
+
+        public void Play(object source, ElapsedEventArgs e)
+        {
+            try
+            {
+                string[] data = serialPort.ReadLine().Split('#');
+                if(data[0] != "")
+                {
+                    sundEffectInstance.Pitch = (float.Parse(data[0])-515f)/515f;
+                }
+            }
+            catch{}
         }
 
         private void Game1_Exiting(object sender, System.EventArgs e)
@@ -35,6 +62,9 @@ namespace SoundPitcher
             sw.Dispose();
             if(serialPort.IsOpen)
                 serialPort.Close();
+            /*if (thread.IsAlive)
+                thread.Abort();*/
+            t.Stop();
         }
 
         /// <summary>
@@ -46,8 +76,16 @@ namespace SoundPitcher
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            serialPort = new SerialPort("COM6");
-            //serialPort.Open();
+            serialPort = new SerialPort("COM7",9600);
+            serialPort.DtrEnable = true;
+            serialPort.RtsEnable = true;
+            serialPort.Open();
+            //thread.Start();
+            soundEffect.Play();
+            sundEffectInstance.Play();
+            sundEffectInstance.Volume = 1f;
+            t.Enabled = true;
+            t.Start();
 
             base.Initialize();
         }
@@ -84,7 +122,6 @@ namespace SoundPitcher
                 Exit();
 
             // TODO: Add your update logic here
-            //sw.WriteLine(serialPort.ReadLine());
 
             base.Update(gameTime);
         }
