@@ -1,6 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Media;
+using System.IO.Ports;
 
 namespace SoundPitcher
 {
@@ -11,11 +14,22 @@ namespace SoundPitcher
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        SerialPort serialPort;
+        SoundEffect soundEffect, soundEffect2;
+        SoundEffectInstance sundEffectInstance, sundEffectInstance2;
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            this.Exiting += Game1_Exiting;
+            soundEffect = Content.Load<SoundEffect>("blurp");
+            sundEffectInstance = soundEffect.CreateInstance();
+        }
+
+        private void Game1_Exiting(object sender, System.EventArgs e)
+        {
+            serialPort.Close();
         }
 
         /// <summary>
@@ -27,6 +41,8 @@ namespace SoundPitcher
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            serialPort = new SerialPort("COM6");
+            serialPort.Open();
 
             base.Initialize();
         }
