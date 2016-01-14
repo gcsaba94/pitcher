@@ -4,6 +4,6 @@
   <Platform>Windows</Platform>
   <Config />
   <SourceFiles>
-    <File>d:/Dokumentumok/Visual Studio 2015/Projects/Suli/5. félév/Robotika/pitcher/SoundPitcher/Content/blurp.wav</File>
+    <File>D:/Dokumentumok/Visual Studio 2015/Projects/Suli/5. félév/Robotika/pitcher/SoundPitcher/Content/blurp.wav</File>
   </SourceFiles>
 </SourceFileCollection>

@@ -22,6 +22,7 @@ namespace SoundPitcher
         StreamWriter sw;
         Thread thread;
         System.Timers.Timer t;
+        string s;
 
         public Game1()
         {
@@ -30,30 +31,61 @@ namespace SoundPitcher
             this.Exiting += Game1_Exiting;
             soundEffect = Content.Load<SoundEffect>("blurp");
             sundEffectInstance = soundEffect.CreateInstance();
+            soundEffect2 = Content.Load<SoundEffect>("blurp");
+            sundEffectInstance2 = soundEffect2.CreateInstance();
             sw = new StreamWriter("port.txt");
             //thread = new Thread(new ThreadStart(Kiir));
-            t = new System.Timers.Timer(100);
-            t.Elapsed += new System.Timers.ElapsedEventHandler(Kiir);
+            t = new System.Timers.Timer(20);
+            //t.Elapsed += new System.Timers.ElapsedEventHandler(Kiir);
             t.Elapsed += new System.Timers.ElapsedEventHandler(Play);
         }
 
         public void Kiir(object source, ElapsedEventArgs e)
         {
-            string s = serialPort.ReadLine();
+            s = serialPort.ReadLine();
             sw.Write(s+"\r");
+            sw.Flush();
         }
 
         public void Play(object source, ElapsedEventArgs e)
         {
             try
             {
-                string[] data = serialPort.ReadLine().Split('#');
-                if(data[0] != "")
-                {
-                    sundEffectInstance.Pitch = (float.Parse(data[0])-515f)/515f;
-                }
+                /*thread = new Thread(new ThreadStart(play_thread));
+                thread.Start();*/
+                play_thread();
             }
-            catch{}
+            catch{ }
+        }
+
+        void play_thread()
+        {
+            s = serialPort.ReadLine();
+            string[] data = s.Split('#');
+            if (data[0] != "")
+            {
+                //sundEffectInstance.Volume = 1.0f;
+                soundEffect.Play();
+                sundEffectInstance.Play();
+                sundEffectInstance.Pitch = (float.Parse(data[0]) - 500f) / 500f;
+            }
+            else
+            {
+                //sundEffectInstance.Volume = 0f;
+                sundEffectInstance.Stop();
+            }
+            if (data[1] != "\r")
+            {
+                //sundEffectInstance2.Volume = 1.0f;
+                soundEffect2.Play();
+                sundEffectInstance2.Play();
+                sundEffectInstance2.Pitch = (float.Parse(data[1]) - 500f) / 500f;
+            }
+            else
+            {
+                //sundEffectInstance2.Volume = 0f;
+                sundEffectInstance2.Stop();
+            }
         }
 
         private void Game1_Exiting(object sender, System.EventArgs e)
@@ -76,14 +108,16 @@ namespace SoundPitcher
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            serialPort = new SerialPort("COM7",9600);
+            serialPort = new SerialPort("COM6",9600);
             serialPort.DtrEnable = true;
             serialPort.RtsEnable = true;
             serialPort.Open();
             //thread.Start();
-            soundEffect.Play();
-            sundEffectInstance.Play();
-            sundEffectInstance.Volume = 1f;
+            SoundEffect.MasterVolume = 1.0f;
+            sundEffectInstance.IsLooped = true;
+            sundEffectInstance2.IsLooped = true;
+            sundEffectInstance.Volume = 1.0f;
+            sundEffectInstance2.Volume = 1.0f;
             t.Enabled = true;
             t.Start();
 
