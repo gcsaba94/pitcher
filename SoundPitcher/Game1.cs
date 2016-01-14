@@ -22,6 +22,7 @@ namespace SoundPitcher
         StreamWriter sw;
         Thread thread;
         System.Timers.Timer t;
+        string[] data;
         string s;
 
         public Game1()
@@ -29,13 +30,13 @@ namespace SoundPitcher
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             this.Exiting += Game1_Exiting;
-            soundEffect = Content.Load<SoundEffect>("blurp");
+            soundEffect = Content.Load<SoundEffect>("beeper");
             sundEffectInstance = soundEffect.CreateInstance();
-            soundEffect2 = Content.Load<SoundEffect>("blurp");
+            soundEffect2 = Content.Load<SoundEffect>("beeper");
             sundEffectInstance2 = soundEffect2.CreateInstance();
             sw = new StreamWriter("port.txt");
             //thread = new Thread(new ThreadStart(Kiir));
-            t = new System.Timers.Timer(20);
+            t = new System.Timers.Timer(200);
             //t.Elapsed += new System.Timers.ElapsedEventHandler(Kiir);
             t.Elapsed += new System.Timers.ElapsedEventHandler(Play);
         }
@@ -53,47 +54,52 @@ namespace SoundPitcher
             {
                 /*thread = new Thread(new ThreadStart(play_thread));
                 thread.Start();*/
-                play_thread();
+                //play_thread();
+                s = serialPort.ReadLine();
+                data = s.Split('#');
+                if (data[0] != "")
+                {
+                    //sundEffectInstance.Volume = 1.0f;
+                    soundEffect.Play();
+                    sundEffectInstance.Play();
+                    sundEffectInstance.Pitch = (float.Parse(data[0]) - 1000f) / 1000f;
+                }
+                else
+                {
+                    //sundEffectInstance.Volume = 0f;
+                    sundEffectInstance.Pause();
+                }
+                if (data[1] != "\r")
+                {
+                    //sundEffectInstance2.Volume = 1.0f;
+                    soundEffect2.Play();
+                    sundEffectInstance2.Play();
+                    sundEffectInstance2.Pitch = (float.Parse(data[1]) - 1000f) / 1000f;
+                }
+                else
+                {
+                    //sundEffectInstance2.Volume = 0f;
+                    sundEffectInstance2.Pause();
+                }
             }
             catch{ }
         }
 
         void play_thread()
         {
-            s = serialPort.ReadLine();
-            string[] data = s.Split('#');
-            if (data[0] != "")
-            {
-                //sundEffectInstance.Volume = 1.0f;
-                soundEffect.Play();
-                sundEffectInstance.Play();
-                sundEffectInstance.Pitch = (float.Parse(data[0]) - 500f) / 500f;
-            }
-            else
-            {
-                //sundEffectInstance.Volume = 0f;
-                sundEffectInstance.Stop();
-            }
-            if (data[1] != "\r")
-            {
-                //sundEffectInstance2.Volume = 1.0f;
-                soundEffect2.Play();
-                sundEffectInstance2.Play();
-                sundEffectInstance2.Pitch = (float.Parse(data[1]) - 500f) / 500f;
-            }
-            else
-            {
-                //sundEffectInstance2.Volume = 0f;
-                sundEffectInstance2.Stop();
-            }
+            
         }
 
         private void Game1_Exiting(object sender, System.EventArgs e)
         {
-            sw.Close();
-            sw.Dispose();
+            //sw.Close();
+            //sw.Dispose();
             if(serialPort.IsOpen)
                 serialPort.Close();
+            sundEffectInstance.Stop();
+            sundEffectInstance2.Stop();
+            soundEffect = soundEffect2 = null; sundEffectInstance = sundEffectInstance2 = null;
+            t.Enabled = false;
             /*if (thread.IsAlive)
                 thread.Abort();*/
             t.Stop();
@@ -108,7 +114,7 @@ namespace SoundPitcher
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            serialPort = new SerialPort("COM6",9600);
+            serialPort = new SerialPort("COM3",9600);
             serialPort.DtrEnable = true;
             serialPort.RtsEnable = true;
             serialPort.Open();
