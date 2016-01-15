@@ -30,15 +30,15 @@ namespace SoundPitcher
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             this.Exiting += Game1_Exiting;
-            soundEffect = Content.Load<SoundEffect>("beeper");
+            soundEffect = Content.Load<SoundEffect>("blurp");
             sundEffectInstance = soundEffect.CreateInstance();
-            soundEffect2 = Content.Load<SoundEffect>("beeper");
+            soundEffect2 = Content.Load<SoundEffect>("blurp");
             sundEffectInstance2 = soundEffect2.CreateInstance();
             sw = new StreamWriter("port.txt");
             //thread = new Thread(new ThreadStart(Kiir));
             t = new System.Timers.Timer(200);
             //t.Elapsed += new System.Timers.ElapsedEventHandler(Kiir);
-            t.Elapsed += new System.Timers.ElapsedEventHandler(Play);
+            //t.Elapsed += new System.Timers.ElapsedEventHandler(Play);
         }
 
         public void Kiir(object source, ElapsedEventArgs e)
@@ -50,39 +50,7 @@ namespace SoundPitcher
 
         public void Play(object source, ElapsedEventArgs e)
         {
-            try
-            {
-                /*thread = new Thread(new ThreadStart(play_thread));
-                thread.Start();*/
-                //play_thread();
-                s = serialPort.ReadLine();
-                data = s.Split('#');
-                if (data[0] != "")
-                {
-                    //sundEffectInstance.Volume = 1.0f;
-                    soundEffect.Play();
-                    sundEffectInstance.Play();
-                    sundEffectInstance.Pitch = (float.Parse(data[0]) - 1000f) / 1000f;
-                }
-                else
-                {
-                    //sundEffectInstance.Volume = 0f;
-                    sundEffectInstance.Pause();
-                }
-                if (data[1] != "\r")
-                {
-                    //sundEffectInstance2.Volume = 1.0f;
-                    soundEffect2.Play();
-                    sundEffectInstance2.Play();
-                    sundEffectInstance2.Pitch = (float.Parse(data[1]) - 1000f) / 1000f;
-                }
-                else
-                {
-                    //sundEffectInstance2.Volume = 0f;
-                    sundEffectInstance2.Pause();
-                }
-            }
-            catch{ }
+            
         }
 
         void play_thread()
@@ -114,7 +82,7 @@ namespace SoundPitcher
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            serialPort = new SerialPort("COM3",9600);
+            serialPort = new SerialPort("COM6",9600);
             serialPort.DtrEnable = true;
             serialPort.RtsEnable = true;
             serialPort.Open();
@@ -126,6 +94,7 @@ namespace SoundPitcher
             sundEffectInstance2.Volume = 1.0f;
             t.Enabled = true;
             t.Start();
+            //this.IsFixedTimeStep = true;
 
             base.Initialize();
         }
@@ -162,7 +131,6 @@ namespace SoundPitcher
                 Exit();
 
             // TODO: Add your update logic here
-
             base.Update(gameTime);
         }
 
@@ -175,7 +143,42 @@ namespace SoundPitcher
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
-
+            try
+            {
+                /*thread = new Thread(new ThreadStart(play_thread));
+                thread.Start();*/
+                //play_thread();
+                s = serialPort.ReadLine();
+                data = s.Split('#');
+                if (data.Length > 1)
+                {
+                    if (data[0].Length > 0)
+                    {
+                        //sundEffectInstance.Volume = 1.0f;
+                        soundEffect.Play();
+                        sundEffectInstance.Play();
+                        sundEffectInstance.Pitch = (float.Parse(data[0]) - 1000f) / 1000f;
+                    }
+                    else
+                    {
+                        //sundEffectInstance.Volume = 0f;
+                        sundEffectInstance.Pause();
+                    }
+                    if (data[1].Length > 1)
+                    {
+                        //sundEffectInstance2.Volume = 1.0f;
+                        soundEffect2.Play();
+                        sundEffectInstance2.Play();
+                        sundEffectInstance2.Pitch = (float.Parse(data[1]) - 1000f) / 1000f;
+                    }
+                    else
+                    {
+                        //sundEffectInstance2.Volume = 0f;
+                        sundEffectInstance2.Pause();
+                    }
+                }
+            }
+            catch { }
             base.Draw(gameTime);
         }
     }
