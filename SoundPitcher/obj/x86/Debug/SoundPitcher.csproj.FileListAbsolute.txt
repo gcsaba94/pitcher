@@ -1,4 +1,3 @@
-d:\Dokumentumok\Visual Studio 2015\Projects\Suli\5. félév\Robotika\pitcher\SoundPitcher\bin\Windows\Debug\Content\blurp.xnb
 d:\Dokumentumok\Visual Studio 2015\Projects\Suli\5. félév\Robotika\pitcher\SoundPitcher\bin\Windows\Debug\SoundPitcher.exe
 d:\Dokumentumok\Visual Studio 2015\Projects\Suli\5. félév\Robotika\pitcher\SoundPitcher\bin\Windows\Debug\SoundPitcher.pdb
 d:\Dokumentumok\Visual Studio 2015\Projects\Suli\5. félév\Robotika\pitcher\SoundPitcher\bin\Windows\Debug\MonoGame.Framework.dll
@@ -24,3 +23,5 @@ d:\Dokumentumok\Visual Studio 2015\Projects\Suli\5. félév\Robotika\pitcher\Sou
 d:\Dokumentumok\Visual Studio 2015\Projects\Suli\5. félév\Robotika\pitcher\SoundPitcher\obj\x86\Debug\SoundPitcher.csprojResolveAssemblyReference.cache
 d:\Dokumentumok\Visual Studio 2015\Projects\Suli\5. félév\Robotika\pitcher\SoundPitcher\obj\x86\Debug\SoundPitcher.exe
 d:\Dokumentumok\Visual Studio 2015\Projects\Suli\5. félév\Robotika\pitcher\SoundPitcher\obj\x86\Debug\SoundPitcher.pdb
+D:\Dokumentumok\Visual Studio 2015\Projects\Suli\5. félév\Robotika\pitcher\SoundPitcher\bin\Windows\Debug\Content\Aah-E.xnb
+D:\Dokumentumok\Visual Studio 2015\Projects\Suli\5. félév\Robotika\pitcher\SoundPitcher\bin\Windows\Debug\Content\beeper.xnb

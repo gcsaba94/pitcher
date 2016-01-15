@@ -30,47 +30,20 @@ namespace SoundPitcher
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             this.Exiting += Game1_Exiting;
-            soundEffect = Content.Load<SoundEffect>("blurp");
+            soundEffect = Content.Load<SoundEffect>("Aah-E");
             sundEffectInstance = soundEffect.CreateInstance();
-            soundEffect2 = Content.Load<SoundEffect>("blurp");
+            soundEffect2 = Content.Load<SoundEffect>("Aah-E");
             sundEffectInstance2 = soundEffect2.CreateInstance();
-            sw = new StreamWriter("port.txt");
-            //thread = new Thread(new ThreadStart(Kiir));
-            t = new System.Timers.Timer(200);
-            //t.Elapsed += new System.Timers.ElapsedEventHandler(Kiir);
-            //t.Elapsed += new System.Timers.ElapsedEventHandler(Play);
         }
 
-        public void Kiir(object source, ElapsedEventArgs e)
-        {
-            s = serialPort.ReadLine();
-            sw.Write(s+"\r");
-            sw.Flush();
-        }
-
-        public void Play(object source, ElapsedEventArgs e)
-        {
-            
-        }
-
-        void play_thread()
-        {
-            
-        }
 
         private void Game1_Exiting(object sender, System.EventArgs e)
         {
-            //sw.Close();
-            //sw.Dispose();
             if(serialPort.IsOpen)
                 serialPort.Close();
             sundEffectInstance.Stop();
             sundEffectInstance2.Stop();
             soundEffect = soundEffect2 = null; sundEffectInstance = sundEffectInstance2 = null;
-            t.Enabled = false;
-            /*if (thread.IsAlive)
-                thread.Abort();*/
-            t.Stop();
         }
 
         /// <summary>
@@ -87,14 +60,11 @@ namespace SoundPitcher
             serialPort.RtsEnable = true;
             serialPort.Open();
             //thread.Start();
-            SoundEffect.MasterVolume = 1.0f;
+            SoundEffect.MasterVolume = 0.7f;
             sundEffectInstance.IsLooped = true;
             sundEffectInstance2.IsLooped = true;
-            sundEffectInstance.Volume = 1.0f;
-            sundEffectInstance2.Volume = 1.0f;
-            t.Enabled = true;
-            t.Start();
-            //this.IsFixedTimeStep = true;
+            sundEffectInstance.Volume = 0.7f;
+            sundEffectInstance2.Volume = 0.7f;
 
             base.Initialize();
         }
@@ -145,9 +115,6 @@ namespace SoundPitcher
             // TODO: Add your drawing code here
             try
             {
-                /*thread = new Thread(new ThreadStart(play_thread));
-                thread.Start();*/
-                //play_thread();
                 s = serialPort.ReadLine();
                 data = s.Split('#');
                 if (data.Length > 1)
@@ -157,7 +124,7 @@ namespace SoundPitcher
                         //sundEffectInstance.Volume = 1.0f;
                         soundEffect.Play();
                         sundEffectInstance.Play();
-                        sundEffectInstance.Pitch = (float.Parse(data[0]) - 1000f) / 1000f;
+                        sundEffectInstance.Pitch = (float.Parse(data[0]) - 1010f) / 1010f;
                     }
                     else
                     {
@@ -169,7 +136,7 @@ namespace SoundPitcher
                         //sundEffectInstance2.Volume = 1.0f;
                         soundEffect2.Play();
                         sundEffectInstance2.Play();
-                        sundEffectInstance2.Pitch = (float.Parse(data[1]) - 1000f) / 1000f;
+                        sundEffectInstance2.Pitch = (float.Parse(data[1]) - 1010f) / 1010f;
                     }
                     else
                     {
