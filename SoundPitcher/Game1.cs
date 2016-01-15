@@ -19,9 +19,6 @@ namespace SoundPitcher
         SerialPort serialPort;
         SoundEffect soundEffect, soundEffect2;
         SoundEffectInstance sundEffectInstance, sundEffectInstance2;
-        StreamWriter sw;
-        Thread thread;
-        System.Timers.Timer t;
         string[] data;
         string s;
 
@@ -32,7 +29,7 @@ namespace SoundPitcher
             this.Exiting += Game1_Exiting;
             soundEffect = Content.Load<SoundEffect>("Aah-E");
             sundEffectInstance = soundEffect.CreateInstance();
-            soundEffect2 = Content.Load<SoundEffect>("Aah-E");
+            soundEffect2 = Content.Load<SoundEffect>("piano");
             sundEffectInstance2 = soundEffect2.CreateInstance();
         }
 
@@ -122,9 +119,9 @@ namespace SoundPitcher
                     if (data[0].Length > 0)
                     {
                         //sundEffectInstance.Volume = 1.0f;
-                        soundEffect.Play();
-                        sundEffectInstance.Play();
                         sundEffectInstance.Pitch = (float.Parse(data[0]) - 1010f) / 1010f;
+                        //soundEffect.Play();
+                        sundEffectInstance.Play();
                     }
                     else
                     {
@@ -134,9 +131,9 @@ namespace SoundPitcher
                     if (data[1].Length > 1)
                     {
                         //sundEffectInstance2.Volume = 1.0f;
-                        soundEffect2.Play();
-                        sundEffectInstance2.Play();
                         sundEffectInstance2.Pitch = (float.Parse(data[1]) - 1010f) / 1010f;
+                        //soundEffect2.Play();
+                        sundEffectInstance2.Play();
                     }
                     else
                     {

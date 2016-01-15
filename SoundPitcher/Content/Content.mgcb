@@ -25,3 +25,9 @@
 /processorParam:Quality=Best
 /build:Aah-E.wav
 
+#begin piano.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:piano.wav
+

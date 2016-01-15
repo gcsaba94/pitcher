@@ -25,3 +25,4 @@ d:\Dokumentumok\Visual Studio 2015\Projects\Suli\5. félév\Robotika\pitcher\Sou
 d:\Dokumentumok\Visual Studio 2015\Projects\Suli\5. félév\Robotika\pitcher\SoundPitcher\obj\x86\Debug\SoundPitcher.pdb
 D:\Dokumentumok\Visual Studio 2015\Projects\Suli\5. félév\Robotika\pitcher\SoundPitcher\bin\Windows\Debug\Content\Aah-E.xnb
 D:\Dokumentumok\Visual Studio 2015\Projects\Suli\5. félév\Robotika\pitcher\SoundPitcher\bin\Windows\Debug\Content\beeper.xnb
+D:\Dokumentumok\Visual Studio 2015\Projects\Suli\5. félév\Robotika\pitcher\SoundPitcher\bin\Windows\Debug\Content\piano.xnb

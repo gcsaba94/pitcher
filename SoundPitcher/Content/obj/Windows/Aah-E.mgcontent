@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <SourceFile>D:/Dokumentumok/Visual Studio 2015/Projects/Suli/5. félév/Robotika/pitcher/SoundPitcher/Content/Aah-E.wav</SourceFile>
-  <SourceTime>2004-11-29T23:48:48+01:00</SourceTime>
+  <SourceTime>2016-01-15T12:01:47.4627311+01:00</SourceTime>
   <DestFile>D:/Dokumentumok/Visual Studio 2015/Projects/Suli/5. félév/Robotika/pitcher/SoundPitcher/Content/bin/Windows/Aah-E.xnb</DestFile>
-  <DestTime>2016-01-15T11:11:14.0030167+01:00</DestTime>
+  <DestTime>2016-01-15T12:02:20.4014712+01:00</DestTime>
   <Importer>WavImporter</Importer>
   <ImporterTime>2015-04-29T19:14:44+02:00</ImporterTime>
   <Processor>SoundEffectProcessor</Processor>
